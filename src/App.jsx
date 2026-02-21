@@ -1,20 +1,69 @@
 import "./App.css";
+import { useState } from "react";
 
 export default function App() {
+	const [formData, setFormData] = useState({ email: "", password: "" });
+
+	const onSumbit = async (e) => {
+		e.preventDefault();
+		try {
+			const response = await fetch(
+				"https://jsonplaceholder.typicode.com/posts",
+				{
+					method: "POST",
+					headers: {
+						"Content-Type": "application/json",
+					},
+					body: JSON.stringify(formData),
+				}
+			);
+			console.log(`Data is sent!`);
+
+			const result = await response.json();
+			console.log(`Sent data:`, result);
+		} catch (err) {
+			console.error(`Failed: ${err}`);
+		}
+
+		setFormData({ email: "", password: "" });
+	};
+
 	return (
 		<>
 			<div className="container">
 				<div className="box">
-					<form action="POST" className="form">
+					<form action="" className="form" onSubmit={onSumbit} method="POST">
 						<h2 className="title">Sign in</h2>
 						<div className="form-content">
 							<label htmlFor="email" className="label">
 								Email:
-								<input type="text" id="email" placeholder="email@example.com" />
+								<input
+									type="text"
+									id="email"
+									placeholder="email@example.com"
+									value={formData.email}
+									onChange={(e) =>
+										setFormData((prevForm) => ({
+											...prevForm,
+											email: e.target.value,
+										}))
+									}
+								/>
 							</label>
 							<label htmlFor="password" className="label">
 								Password:
-								<input type="text" id="password" placeholder="Password" />
+								<input
+									type="text"
+									id="password"
+									placeholder="Password"
+									value={formData.password}
+									onChange={(e) =>
+										setFormData((prevForm) => ({
+											...prevForm,
+											password: e.target.value,
+										}))
+									}
+								/>
 							</label>
 							<button type="submit" className="btn">
 								Enter
