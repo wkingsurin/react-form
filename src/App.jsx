@@ -4,7 +4,7 @@ import { useState } from "react";
 export default function App() {
 	const [formData, setFormData] = useState({ email: "", password: "" });
 
-	const onSumbit = async (e) => {
+	const onSubmit = async (e) => {
 		e.preventDefault();
 		try {
 			const response = await fetch(
@@ -17,22 +17,25 @@ export default function App() {
 					body: JSON.stringify(formData),
 				}
 			);
-			console.log(`Data is sent!`);
+
+			if (!response.ok) {
+				throw new Error(`Request failed`);
+			}
 
 			const result = await response.json();
 			console.log(`Sent data:`, result);
+
+			setFormData({ email: "", password: "" });
 		} catch (err) {
 			console.error(`Failed: ${err}`);
 		}
-
-		setFormData({ email: "", password: "" });
 	};
 
 	return (
 		<>
 			<div className="container">
 				<div className="box">
-					<form action="" className="form" onSubmit={onSumbit} method="POST">
+					<form action="" className="form" onSubmit={onSubmit} method="POST">
 						<h2 className="title">Sign in</h2>
 						<div className="form-content">
 							<label htmlFor="email" className="label">
