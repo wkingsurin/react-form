@@ -1,5 +1,6 @@
 import "./App.css";
 import { useState, useRef } from "react";
+import { formValid } from "./assets/utlis";
 
 export default function App() {
 	const [formData, setFormData] = useState({ email: "", password: "" });
@@ -8,31 +9,10 @@ export default function App() {
 	const emailInputRef = useRef(null);
 	const passwordInputRef = useRef(null);
 
-	const highlightField = (field, delay = 1500) => {
-		field.style.border = `2px solid crimson`;
-
-		setTimeout(() => {
-			field.style.border = ``;
-		}, delay);
-	};
-
-	const formValid = () => {
-		if (!formData.email || !formData.password) {
-			highlightField(emailInputRef.current);
-			highlightField(passwordInputRef.current);
-			return false;
-		}
-		if (formData.password.length < 8) {
-			highlightField(passwordInputRef.current);
-			return false;
-		}
-		return true;
-	};
-
 	const onSubmit = async (e) => {
 		e.preventDefault();
 		try {
-			if (!formValid()) {
+			if (!formValid({ formData, emailInputRef, passwordInputRef })) {
 				return;
 			}
 
