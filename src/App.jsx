@@ -28,9 +28,10 @@ export default function App() {
 			console.log(`Sent data:`, result);
 
 			setFormData({ email: "", password: "" });
-			setIsLoading(false);
 		} catch (err) {
 			console.error(`Failed: ${err}`);
+		} finally {
+			setIsLoading(false);
 		}
 	};
 
