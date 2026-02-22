@@ -1,4 +1,5 @@
 import { useState, useRef } from "react";
+import Input from "../ui/Input";
 import { formValid } from "../../assets/utlis";
 import "./Form.css";
 
@@ -47,38 +48,24 @@ export default function Form() {
 		<form action="" className="form" onSubmit={onSubmit} method="POST">
 			<h2 className="title">Sign in</h2>
 			<div className="form-content">
-				<label htmlFor="email" className="label">
-					Email:
-					<input
-						type="text"
-						id="email"
-						placeholder="email@example.com"
-						value={formData.email}
-						ref={emailInputRef}
-						onChange={(e) =>
-							setFormData((prevForm) => ({
-								...prevForm,
-								email: e.target.value,
-							}))
-						}
-					/>
-				</label>
-				<label htmlFor="password" className="label">
-					Password:
-					<input
-						type="password"
-						id="password"
-						placeholder="Password"
-						value={formData.password}
-						ref={passwordInputRef}
-						onChange={(e) =>
-							setFormData((prevForm) => ({
-								...prevForm,
-								password: e.target.value,
-							}))
-						}
-					/>
-				</label>
+				<Input
+					id="email"
+					labelText="Email:"
+					type="email"
+					placeholder="email@example.com"
+					value={formData.email}
+					ref={emailInputRef}
+					setFormData={setFormData}
+				/>
+				<Input
+					id="password"
+					labelText="Password:"
+					type="password"
+					placeholder="Password..."
+					value={formData.password}
+					ref={passwordInputRef}
+					setFormData={setFormData}
+				/>
 				<button type="submit" className="btn" disabled={isLoading}>
 					Enter
 				</button>
