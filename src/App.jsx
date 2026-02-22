@@ -3,10 +3,12 @@ import { useState } from "react";
 
 export default function App() {
 	const [formData, setFormData] = useState({ email: "", password: "" });
+	const [isLoading, setIsLoading] = useState(false);
 
 	const onSubmit = async (e) => {
 		e.preventDefault();
 		try {
+			setIsLoading(true);
 			const response = await fetch(
 				"https://jsonplaceholder.typicode.com/posts",
 				{
@@ -26,6 +28,7 @@ export default function App() {
 			console.log(`Sent data:`, result);
 
 			setFormData({ email: "", password: "" });
+			setIsLoading(false);
 		} catch (err) {
 			console.error(`Failed: ${err}`);
 		}
@@ -68,7 +71,7 @@ export default function App() {
 									}
 								/>
 							</label>
-							<button type="submit" className="btn">
+							<button type="submit" className="btn" disabled={isLoading}>
 								Enter
 							</button>
 						</div>
