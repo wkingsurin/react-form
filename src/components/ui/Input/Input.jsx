@@ -1,4 +1,5 @@
 import { forwardRef } from "react";
+import "./Input.css";
 
 const Input = forwardRef((props, ref) => {
 	const { id, labelText, type, placeholder, value, setFormData } = props;
