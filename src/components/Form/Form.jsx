@@ -11,6 +11,15 @@ export default function Form() {
 	const emailInputRef = useRef(null);
 	const passwordInputRef = useRef(null);
 
+	const onChange = (e) => {
+		const { name, value } = e.target;
+
+		setFormData((prevForm) => ({
+			...prevForm,
+			[name]: value,
+		}));
+	};
+
 	const onSubmit = async (e) => {
 		e.preventDefault();
 		try {
@@ -53,19 +62,21 @@ export default function Form() {
 					id="email"
 					labelText="Email:"
 					type="email"
+					name="email"
 					placeholder="email@example.com"
 					value={formData.email}
 					ref={emailInputRef}
-					setFormData={setFormData}
+					onChange={onChange}
 				/>
 				<Input
 					id="password"
 					labelText="Password:"
 					type="password"
+					name="password"
 					placeholder="Password..."
 					value={formData.password}
 					ref={passwordInputRef}
-					setFormData={setFormData}
+					onChange={onChange}
 				/>
 				<Button type="submit" className="btn" disabled={isLoading}>
 					Sign in
