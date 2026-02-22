@@ -1,13 +1,41 @@
 import "./App.css";
-import { useState } from "react";
+import { useState, useRef } from "react";
 
 export default function App() {
 	const [formData, setFormData] = useState({ email: "", password: "" });
 	const [isLoading, setIsLoading] = useState(false);
 
+	const emailInputRef = useRef(null);
+	const passwordInputRef = useRef(null);
+
+	const highlightField = (field, delay = 1500) => {
+		field.style.border = `2px solid crimson`;
+
+		setTimeout(() => {
+			field.style.border = ``;
+		}, delay);
+	};
+
+	const formValid = () => {
+		if (!formData.email || !formData.password) {
+			highlightField(emailInputRef.current);
+			highlightField(passwordInputRef.current);
+			return false;
+		}
+		if (formData.password.length < 8) {
+			highlightField(passwordInputRef.current);
+			return false;
+		}
+		return true;
+	};
+
 	const onSubmit = async (e) => {
 		e.preventDefault();
 		try {
+			if (!formValid()) {
+				return;
+			}
+
 			setIsLoading(true);
 			const response = await fetch(
 				"https://jsonplaceholder.typicode.com/posts",
@@ -49,6 +77,7 @@ export default function App() {
 									id="email"
 									placeholder="email@example.com"
 									value={formData.email}
+									ref={emailInputRef}
 									onChange={(e) =>
 										setFormData((prevForm) => ({
 											...prevForm,
@@ -60,10 +89,11 @@ export default function App() {
 							<label htmlFor="password" className="label">
 								Password:
 								<input
-									type="text"
+									type="password"
 									id="password"
 									placeholder="Password"
 									value={formData.password}
+									ref={passwordInputRef}
 									onChange={(e) =>
 										setFormData((prevForm) => ({
 											...prevForm,
