@@ -1,5 +1,6 @@
 import { useState, useRef } from "react";
 import Input from "../ui/Input";
+import Button from "../ui/Button";
 import { formValid } from "../../assets/utlis";
 import "./Form.css";
 
@@ -66,9 +67,9 @@ export default function Form() {
 					ref={passwordInputRef}
 					setFormData={setFormData}
 				/>
-				<button type="submit" className="btn" disabled={isLoading}>
-					Enter
-				</button>
+				<Button type="submit" className="btn" disabled={isLoading}>
+					Sign in
+				</Button>
 			</div>
 		</form>
 	);
